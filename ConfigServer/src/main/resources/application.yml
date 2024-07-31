@@ -1,0 +1,11 @@
+
+spring:
+  application:
+    name: Config-Server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/monu0751/ECommerce
+server:
+  port: 8083

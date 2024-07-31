@@ -1,0 +1,17 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: product-service
+            uri: lb://PRODUCT-SERVICE
+            predicates:
+              - Path=/api/v2/products/**, /api/v1/products/**
+          - id: category-service
+            uri: lb://CATEGORY-SERVICE
+            predicates:
+              - Path=/api/v1/categories/**
