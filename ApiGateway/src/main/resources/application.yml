@@ -15,3 +15,11 @@ spring:
             uri: lb://CATEGORY-SERVICE
             predicates:
               - Path=/api/v1/categories/**
+          - id: user-service
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/api/v1/users/**
+          - id: rating-service
+            uri: lb://RATING-SERVICE
+            predicates:
+              - Path=/api/v1/ratings/**

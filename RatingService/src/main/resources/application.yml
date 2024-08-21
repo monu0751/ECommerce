@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Rating-Service
+  data:
+    mongodb:
+      database: ecommerce_rating
+      uri: mongodb://localhost:27017
+
+server:
+  port: 8086
+
