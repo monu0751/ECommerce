@@ -2,9 +2,11 @@ package com.ecommerce.UserService.controller;
 
 import com.ecommerce.UserService.model.User;
 import com.ecommerce.UserService.service.IUserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -21,6 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @CircuitBreaker(name = "ratingProductCircuitBreaker", fallbackMethod = "ratingProductFallback")
     public User getUserById(@PathVariable String id) {
         return userService.getUserById(id);
     }
@@ -43,6 +46,15 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
+    }
+
+    public User ratingProductFallback(String id, Throwable t) {
+
+        return User.builder()
+                .id(UUID.randomUUID())
+                .name("fallback")
+                .email("fallback")
+                .build();
     }
 
 }

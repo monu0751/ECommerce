@@ -1,8 +1,10 @@
 package com.ecommerce.UserService.model;
 
+import com.ecommerce.UserService.external.model.Rating;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -20,4 +22,6 @@ public class User {
     private String role;
     private String status;
     private String phone;
+    @Transient
+    private List<Rating> ratings;
 }
