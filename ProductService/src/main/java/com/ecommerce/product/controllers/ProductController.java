@@ -4,6 +4,7 @@ import com.ecommerce.product.dto.request.ProductRequestDTO;
 import com.ecommerce.product.dto.response.ProductResponseDTO;
 import com.ecommerce.product.exceptions.ProductNotFoundException;
 import com.ecommerce.product.services.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ProductController {
     public ProductResponseDTO createProduct(@RequestBody ProductRequestDTO productRequestDTO) {
         return productService.createProduct(productRequestDTO);
     }
+    @PreAuthorize("hasAuthority('SCOPE_internal')")
     @GetMapping("/{id}")
     public ProductResponseDTO getProductById(@PathVariable Long id) throws ProductNotFoundException {
         return productService.getProductById(id);

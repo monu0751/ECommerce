@@ -48,8 +48,8 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    public User ratingProductFallback(String id, Throwable t) {
-
+    public User ratingProductFallback(String id, Exception ex) {
+        ex.printStackTrace();
         return User.builder()
                 .id(UUID.randomUUID())
                 .name("fallback")

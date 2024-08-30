@@ -11,6 +11,23 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-73563769.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorization-grant-type: client_credentials
+            scope: internal
+            client-id: 0oaj89afqh2pkktA45d7
+            client-secret: 1s-Qzmv38_ZlfsZahyddBq38X1--FlaKTwl8ehxcOjGZVGVwAfY5LRtuUjkBaAjr
+        provider:
+            okta:
+                issuer-uri: https://dev-73563769.okta.com/oauth2/default
 server:
   port: 8085
 
@@ -40,3 +57,8 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
+
+okta:
+  oauth2:
+    issuer: https://dev-73563769.okta.com/oauth2/default
+    audience: api://default
