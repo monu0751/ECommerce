@@ -33,7 +33,7 @@ public class MyConfig {
                 repository, authorizedClientRepository);
         defaultOAuth2AuthorizedClientManager.setAuthorizedClientProvider(provider);
         return defaultOAuth2AuthorizedClientManager;
-        }
+    }
 
 
 }

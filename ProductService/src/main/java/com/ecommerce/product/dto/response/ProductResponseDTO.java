@@ -1,5 +1,6 @@
 package com.ecommerce.product.dto.response;
 
+import com.ecommerce.product.models.Category;
 import lombok.*;
 
 @Getter
@@ -12,5 +13,5 @@ public class ProductResponseDTO {
     private String name;
     private String description;
     private double price;
-    private Long categoryId;
+    private Category category;
 }

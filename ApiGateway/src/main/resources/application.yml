@@ -10,7 +10,7 @@ spring:
           - id: product-service
             uri: lb://PRODUCT-SERVICE
             predicates:
-              - Path=/api/v2/products/**, /api/v1/products/**
+              - Path=/api/v2/products/**, /api/v1/products/**, /api/v1/categories/**
           - id: category-service
             uri: lb://CATEGORY-SERVICE
             predicates:
@@ -23,6 +23,10 @@ spring:
             uri: lb://RATING-SERVICE
             predicates:
               - Path=/api/v1/ratings/**
+          - id: REDIS-CACHE
+            uri: lb://REDIS-CACHE
+            predicates:
+              - Path=/api/v1/redis/**
 okta:
   oauth2:
     issuer: https://dev-73563769.okta.com/oauth2/default

@@ -3,6 +3,7 @@ package com.ecommerce.product.services;
 import com.ecommerce.product.dto.request.ProductRequestDTO;
 import com.ecommerce.product.dto.response.ProductResponseDTO;
 import com.ecommerce.product.exceptions.ProductNotFoundException;
+import com.ecommerce.product.models.Product;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface ProductService {
     public void deleteProduct(Long id) throws ProductNotFoundException;
     public List<ProductResponseDTO> searchProduct(String name);
     public List<ProductResponseDTO> getAllProductsByCategory(Long categoryId);
+
+    public List<Product> getMostRatedProducts();
 }

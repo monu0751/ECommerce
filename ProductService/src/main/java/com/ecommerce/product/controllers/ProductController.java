@@ -3,6 +3,7 @@ package com.ecommerce.product.controllers;
 import com.ecommerce.product.dto.request.ProductRequestDTO;
 import com.ecommerce.product.dto.response.ProductResponseDTO;
 import com.ecommerce.product.exceptions.ProductNotFoundException;
+import com.ecommerce.product.models.Product;
 import com.ecommerce.product.services.ProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-    @PostMapping("/create")
+    @PostMapping()
     public ProductResponseDTO createProduct(@RequestBody ProductRequestDTO productRequestDTO) {
         return productService.createProduct(productRequestDTO);
     }
@@ -42,5 +43,10 @@ public class ProductController {
     @GetMapping("/category/{categoryId}")
     public List<ProductResponseDTO> getAllProductsByCategory(@PathVariable Long categoryId) {
         return productService.getAllProductsByCategory(categoryId);
+    }
+
+    @GetMapping("/most-rated")
+    public List<Product> getMostRatedProducts() {
+        return productService.getMostRatedProducts();
     }
 }

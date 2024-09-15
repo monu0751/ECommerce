@@ -3,7 +3,9 @@ package com.ecommerce.product.services.impl;
 import com.ecommerce.product.dto.request.ProductRequestDTO;
 import com.ecommerce.product.dto.response.ProductResponseDTO;
 import com.ecommerce.product.exceptions.ProductNotFoundException;
+import com.ecommerce.product.external.service.RedisService;
 import com.ecommerce.product.models.Product;
+import com.ecommerce.product.repos.CategoryRepo;
 import com.ecommerce.product.repos.ProductRepo;
 import com.ecommerce.product.services.ProductService;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,13 @@ import java.util.UUID;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepo productRepo;
+    private final CategoryRepo categoryRepo;
+    private final RedisService redisService;
 
-    public ProductServiceImpl(ProductRepo productRepo) {
+    public ProductServiceImpl(ProductRepo productRepo, CategoryRepo categoryRepo, RedisService redisService) {
         this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
+        this.redisService = redisService;
     }
 
 
@@ -25,7 +31,8 @@ public class ProductServiceImpl implements ProductService {
                 .name(productRequestDTO.getName())
                 .description(productRequestDTO.getDescription())
                 .price(productRequestDTO.getPrice())
-                .categoryId(productRequestDTO.getCategoryId())
+                .category(categoryRepo.findById(
+                        productRequestDTO.getCategoryId()).orElse(null))
                 .build();
         product = productRepo.save(product);
         return ProductResponseDTO.builder()
@@ -33,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategoryId())
+                .category(product.getCategory())
                 .build();
     }
 
@@ -45,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategoryId())
+                .category(product.getCategory())
                 .build();
     }
 
@@ -55,14 +62,15 @@ public class ProductServiceImpl implements ProductService {
         product.setName(productRequestDTO.getName());
         product.setDescription(productRequestDTO.getDescription());
         product.setPrice(productRequestDTO.getPrice());
-        product.setCategoryId(productRequestDTO.getCategoryId());
+        product.setCategory(categoryRepo
+                .findById(productRequestDTO.getCategoryId()).orElse(null));
         product = productRepo.save(product);
         return ProductResponseDTO.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategoryId())
+                .category(product.getCategory())
                 .build();
     }
 
@@ -81,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategoryId())
+                .category(product.getCategory())
                 .build()).toList();
     }
 
@@ -93,7 +101,12 @@ public class ProductServiceImpl implements ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
-                .categoryId(product.getCategoryId())
+                .category(product.getCategory())
                 .build()).toList();
+    }
+
+    @Override
+    public List<Product> getMostRatedProducts() {
+        return redisService.getMostRatedProducts("high_rated_products");
     }
 }
